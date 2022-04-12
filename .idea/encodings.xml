@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/power_desinger物理模型图/如何使用.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/mypackage/AddData.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/mypackage/ChooseSeat.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/mypackage/ConfirmInterface.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/mypackage/Connect.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/mypackage/Menu.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/mypackage/OrderInterface.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/mypackage/Result.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/使用说明.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/数据库建表代码.txt" charset="GBK" />
+  </component>
+</project>

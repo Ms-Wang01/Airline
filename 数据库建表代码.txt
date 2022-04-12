@@ -1,0 +1,314 @@
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('airline_company')
+            and   type = 'U')
+   drop table airline_company
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('airport')
+            and   type = 'U')
+   drop table airport
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('arrival_airport')
+            and   name  = 'arrival_airport2_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index arrival_airport.arrival_airport2_FK
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('arrival_airport')
+            and   name  = 'arrival_airport_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index arrival_airport.arrival_airport_FK
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('arrival_airport')
+            and   type = 'U')
+   drop table arrival_airport
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('flight')
+            and   name  = 'company_have_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index flight.company_have_FK
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('flight')
+            and   type = 'U')
+   drop table flight
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('plane')
+            and   type = 'U')
+   drop table plane
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('start_airport')
+            and   name  = 'start_airport2_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index start_airport.start_airport2_FK
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('start_airport')
+            and   name  = 'start_airport_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index start_airport.start_airport_FK
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('start_airport')
+            and   type = 'U')
+   drop table start_airport
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('u')
+            and   type = 'U')
+   drop table u
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('"use"')
+            and   name  = 'use2_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index "use".use2_FK
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('"use"')
+            and   name  = 'use_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index "use".use_FK
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('"use"')
+            and   type = 'U')
+   drop table "use"
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('user_flight')
+            and   name  = '用户拥有航班2_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index user_flight.用户拥有航班2_FK
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('user_flight')
+            and   name  = '用户拥有航班_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index user_flight.用户拥有航班_FK
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('user_flight')
+            and   type = 'U')
+   drop table user_flight
+go
+
+/*==============================================================*/
+/* Table: airline_company                                       */
+/*==============================================================*/
+create table airline_company (
+   company_id           int                  not null,
+   company_name         char(256)            null,
+   discount             float                null,
+   constraint PK_AIRLINE_COMPANY primary key nonclustered (company_id)
+)
+go
+
+/*==============================================================*/
+/* Table: airport                                               */
+/*==============================================================*/
+create table airport (
+   airport_id           int                  not null,
+   airport_place        char(256)            null,
+   airport_name         char(256)            null,
+   constraint PK_AIRPORT primary key nonclustered (airport_id)
+)
+go
+
+/*==============================================================*/
+/* Table: arrival_airport                                       */
+/*==============================================================*/
+create table arrival_airport (
+   flight_id            int                  not null,
+   airport_id           int                  not null,
+   constraint PK_ARRIVAL_AIRPORT primary key (airport_id, flight_id)
+)
+go
+
+/*==============================================================*/
+/* Index: arrival_airport_FK                                    */
+/*==============================================================*/
+create index arrival_airport_FK on arrival_airport (
+airport_id ASC
+)
+go
+
+/*==============================================================*/
+/* Index: arrival_airport2_FK                                   */
+/*==============================================================*/
+create index arrival_airport2_FK on arrival_airport (
+flight_id ASC
+)
+go
+
+/*==============================================================*/
+/* Table: flight                                                */
+/*==============================================================*/
+create table flight (
+   flight_id            int                  not null,
+   company_id           int                  null,
+   departure_time       datetime             null,
+   arrival_time         datetime             null,
+   price                float                null,
+   departure_place      char(256)            null,
+   destination          char(256)            null,
+   status               char(256)            not null,
+   constraint PK_FLIGHT primary key nonclustered (flight_id)
+)
+go
+
+/*==============================================================*/
+/* Index: company_have_FK                                       */
+/*==============================================================*/
+create index company_have_FK on flight (
+company_id ASC
+)
+go
+
+/*==============================================================*/
+/* Table: plane                                                 */
+/*==============================================================*/
+create table plane (
+   plane_id             int                  not null,
+   plane_name           char(256)            null,
+   constraint PK_PLANE primary key nonclustered (plane_id)
+)
+go
+
+/*==============================================================*/
+/* Table: start_airport                                         */
+/*==============================================================*/
+create table start_airport (
+   flight_id            int                  not null,
+   airport_id           int                  not null,
+   constraint PK_START_AIRPORT primary key (flight_id, airport_id)
+)
+go
+
+/*==============================================================*/
+/* Index: start_airport_FK                                      */
+/*==============================================================*/
+create index start_airport_FK on start_airport (
+flight_id ASC
+)
+go
+
+/*==============================================================*/
+/* Index: start_airport2_FK                                     */
+/*==============================================================*/
+create index start_airport2_FK on start_airport (
+airport_id ASC
+)
+go
+
+/*==============================================================*/
+/* Table: u                                                     */
+/*==============================================================*/
+create table u (
+   uid                  char(256)            not null,
+   uname                char(256)            null,
+   constraint PK_U primary key nonclustered (uid)
+)
+go
+
+/*==============================================================*/
+/* Table: "use"                                                 */
+/*==============================================================*/
+create table "use" (
+   flight_id            int                  not null,
+   plane_id             int                  not null,
+   constraint PK_USE primary key (flight_id, plane_id)
+)
+go
+
+/*==============================================================*/
+/* Index: use_FK                                                */
+/*==============================================================*/
+create index use_FK on "use" (
+flight_id ASC
+)
+go
+
+/*==============================================================*/
+/* Index: use2_FK                                               */
+/*==============================================================*/
+create index use2_FK on "use" (
+plane_id ASC
+)
+go
+
+/*==============================================================*/
+/* Table: user_flight                                           */
+/*==============================================================*/
+create table user_flight (
+   uid                  char(256)            not null,
+   flight_id            int                  not null,
+   seat                 int                  not null,
+   constraint PK_USER_FLIGHT primary key (flight_id, uid)
+)
+go
+
+/*==============================================================*/
+/* Index: 用户拥有航班_FK                                             */
+/*==============================================================*/
+create index 用户拥有航班_FK on user_flight (
+flight_id ASC
+)
+go
+
+/*==============================================================*/
+/* Index: 用户拥有航班2_FK                                            */
+/*==============================================================*/
+create index 用户拥有航班2_FK on user_flight (
+uid ASC
+)
+go
